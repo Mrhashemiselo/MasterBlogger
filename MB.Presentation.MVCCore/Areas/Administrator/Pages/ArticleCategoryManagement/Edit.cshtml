@@ -1,0 +1,30 @@
+﻿@page "{id}"
+@model MB.Presentation.MVCCore.Areas.Administrator.Pages.ArticleCategoryManagement.EditModel
+@{
+}
+
+<div class="card">
+    <div class="card-header">
+        <h2>Edit article category: @Model.ArticleCategory.Title</h2>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="ArticleCategory.Id"/>
+                    <div class="col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label asp-for="ArticleCategory.Title" class="control-label">Title:</label>
+                            <input asp-for="ArticleCategory.Title" class="form-label"/>
+                        </div>
+                    </div>
+                    <div>
+                        <input type="submit" value="Edit" class="btn btn-warning"/>
+                        <a class="btn btn-dark" asp-page="./list" asp-area="administrator">Back to list</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
