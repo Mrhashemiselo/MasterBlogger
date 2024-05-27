@@ -10,25 +10,25 @@ public class CommentApplication(ICommentRepository commentRepository) : IComment
     public void Add(AddComment command)
     {
         var comment = new Comment(command.Name, command.Email, command.Message, command.ArticleId);
-        _commentRepository.CreateAndSave(comment);
+        _commentRepository.Create(comment);
     }
 
     public void Cancel(long id)
     {
         var comment = _commentRepository.Get(id);
         comment.Cancel();
-        _commentRepository.Save();
+      //  _commentRepository.Save();
     }
 
     public void Confirm(long id)
     {
         var comment = _commentRepository.Get(id);
         comment.Confirm();
-        _commentRepository.Save();
+    //    _commentRepository.Save();
     }
 
-    public List<CommentViewModel> GetAll()
+    public List<CommentViewModel> GetList()
     {
-        return _commentRepository.GetAll();
+        return _commentRepository.GetList();
     }
 }

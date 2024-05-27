@@ -6,9 +6,9 @@ public class ArticleApplication(IArticleRepository articleRepository) : IArticle
 {
     public void Activate(long id)
     {
-        var article = articleRepository.GetArticle(id);
+        var article = articleRepository.Get(id);
         article.Active();
-        articleRepository.Save();
+        //articleRepository.Save();
 
     }
 
@@ -21,20 +21,20 @@ public class ArticleApplication(IArticleRepository articleRepository) : IArticle
             command.Content,
             command.ArticleCategoryId
             );
-        articleRepository.CreateAndSave(article);
+        articleRepository.Create(article);
     }
 
     public void Edit(EditArticle command)
     {
-        var article = articleRepository.GetArticle(command.Id);
+        var article = articleRepository.Get(command.Id);
         article.Edit(command.Title,command.ShortDescription, command.Image,command.Content,command.ArticleCategoryId);
-        articleRepository.Save();
+      //  articleRepository.Save();
     }
 
     public EditArticle Get(long id)
     {
         var article = articleRepository
-            .GetArticle(id);
+            .Get(id);
         return new EditArticle()
         {
             Title = article.Title,
@@ -53,8 +53,8 @@ public class ArticleApplication(IArticleRepository articleRepository) : IArticle
 
     public void Remove(long id)
     {
-        var article = articleRepository.GetArticle(id);
+        var article = articleRepository.Get(id);
         article.Remove();
-        articleRepository.Save();
+        //articleRepository.Save();
     }
 }

@@ -1,27 +1,16 @@
-﻿using MB.Application.Contracts.Comment;
+﻿using _01_Framework.Infrastructure;
+using MB.Application.Contracts.Comment;
 using MB.Domain.CommentAgg;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
 namespace MB.Infrastructure.EFCore.Repositories;
 
-public class CommentRepository(MasterBloggerContext dbContext) : ICommentRepository
+public class CommentRepository(MasterBloggerContext dbContext) : BaseRepository<long, Comment>(dbContext), ICommentRepository
 {
     private readonly MasterBloggerContext _dbContext = dbContext;
 
-    public void CreateAndSave(Comment entity)
-    {
-        _dbContext.Comments.Add(entity);
-        Save();
-    }
-
-    public Comment Get(long id)
-    {
-        return _dbContext.Comments
-            .FirstOrDefault(c => c.Id == id);
-    }
-
-    public List<CommentViewModel> GetAll()
+    public List<CommentViewModel> GetList()
     {
         return _dbContext.Comments
             .Include(a => a.Article)
@@ -34,11 +23,6 @@ public class CommentRepository(MasterBloggerContext dbContext) : ICommentReposit
                 Message = s.Message,
                 Name = s.Name,
                 Status = s.Status,
-            }).ToList() ;
-    }
-
-    public void Save()
-    {
-        _dbContext.SaveChanges();
+            }).ToList();
     }
 }

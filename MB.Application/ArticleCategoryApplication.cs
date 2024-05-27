@@ -12,20 +12,20 @@ public class ArticleCategoryApplication(
 {
     public void Activate(long id)
     {
-       var articleCategory = articleCategoryRepository.GetById(id);
+       var articleCategory = articleCategoryRepository.Get(id);
         articleCategory.Activate();
-        articleCategoryRepository.Save();
+        //articleCategoryRepository.Save();
     }
 
     public void Create(CreateArticleCategory command)
     {
         var articleCategory = new ArticleCategory(command.Title,articleCategoryValidatorService);
-        articleCategoryRepository.Add(articleCategory);
+        articleCategoryRepository.Create(articleCategory);
     }
 
     public RenameArticleCategory GetById(long id)
     {
-        var articleCategory = articleCategoryRepository.GetById(id);
+        var articleCategory = articleCategoryRepository.Get(id);
         return new RenameArticleCategory()
         {
             Id = articleCategory.Id,
@@ -36,31 +36,28 @@ public class ArticleCategoryApplication(
     public List<ArticleCategoryViewModel> List()
     {
         var articleCategories = articleCategoryRepository.GetAll();
-        var result = new List<ArticleCategoryViewModel>();
-        foreach (var articleCategory in articleCategories)
-        {
-            result.Add(new ArticleCategoryViewModel()
+        return articleCategories
+            .Select(a => new ArticleCategoryViewModel()
             {
-                Id = articleCategory.Id,
-                Title = articleCategory.Title,
-                CreationDate = articleCategory.CreationDate.ToString(CultureInfo.InvariantCulture),
-                IsDeleted = articleCategory.IsDeleted
-            });
-        }
-        return result;
+                Id = a.Id,
+                Title = a.Title,
+                CreationDate = a.CreationDate.ToString(CultureInfo.InvariantCulture),
+                IsDeleted = a.IsDeleted
+            }).OrderByDescending(s => s.Id)
+            .ToList();
     }
 
     public void Remove(long id)
     {
-        var articleCategory = articleCategoryRepository.GetById(id);
+        var articleCategory = articleCategoryRepository.Get(id);
         articleCategory.Remove();
-        articleCategoryRepository.Save();
+        //articleCategoryRepository.Save();
     }
 
     public void Rename(RenameArticleCategory command)
     {
-        var articleCategory = articleCategoryRepository.GetById(command.Id);
+        var articleCategory = articleCategoryRepository.Get(command.Id);
         articleCategory.Rename(command.Title);
-        articleCategoryRepository.Save();
+        //articleCategoryRepository.Save();
     }
 }

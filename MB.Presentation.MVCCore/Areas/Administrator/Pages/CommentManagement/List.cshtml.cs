@@ -10,7 +10,7 @@ namespace MB.Presentation.MVCCore.Areas.Administrator.Pages.CommentManagement
         public List<CommentViewModel> Comments { get; set; }
         public void OnGet()
         {
-            Comments = _commentApplication.GetAll();
+            Comments = _commentApplication.GetList();
         }
         public RedirectToPageResult OnPostConfirm(long id)
         {
